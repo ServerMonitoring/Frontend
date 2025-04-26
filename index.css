@@ -1,0 +1,20 @@
+  /* styles.css */
+  :root {
+    --primary-color: #28a745; /* Основной зеленый цвет */
+    --secondary-color: #17a2b8; /* Вторичный акцентный цвет (бирюзовый) */
+    --background-color: #1e1e1e; /* Темный фон */
+    --card-background: #2d2d2d; /* Темно-серый для карточек */
+    --text-color: #ffffff; /* Белый текст */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Легкая тень */
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
