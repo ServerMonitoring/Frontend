@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import "./LoginForm.scss"
 export default function LoginForm(){
-
+  const { t } = useTranslation();
+  
     return(
   <div className="auth-content">
     <section className="login-section">

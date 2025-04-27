@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './slice/authslice';
+import rootReducer from './RootReduceer';
 
 // Создаем хранилище
 const store = configureStore({
-  reducer: {
-    auth: authReducer, // Подключаем редюсер авторизации
-  },
+  reducer: rootReducer
 });
 
 // Определяем тип состояния и диспетчера
