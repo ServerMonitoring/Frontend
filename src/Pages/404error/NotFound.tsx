@@ -1,5 +1,7 @@
+import { useTranslation } from "react-i18next"
 import "./NotFound.scss"
 export default function NotFoundPage(){
+  const {t}=useTranslation();
     return(
         <>
              <div className="error-content">
@@ -15,9 +17,9 @@ export default function NotFoundPage(){
         </pre>
       </div>
       <div className="error-message">
-        <h1>404</h1>
-        <p>Oops! The page you're looking for doesn't exist.</p>
-        <a href="/" className="btn-primary">Go Back to Dashboard</a>
+        <h1>{t('NotFound.h1')}</h1>
+        <p>{t('NotFound.p')}</p>
+        <a href="/" className="btn-primary">{t('NotFound.aname')}</a>
       </div>
     </section>
     </div>

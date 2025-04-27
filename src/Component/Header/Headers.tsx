@@ -1,33 +1,31 @@
 import "./headers.scss"
+import { useTranslation } from "react-i18next"
+import ButtonTheme from "./button/Theme/buttonTheme"
+import ButtonLanguage from "./button/Language/buttonLanguage"
 
 export default function Headers(){
-  const isAuth = true
-  const Language = "Ru"
-  const Theme = "Black"
+  const isAuth = false
+  const {t}= useTranslation();
   const ArrHeadersRight=()=>{
     if(isAuth){
       return [
-        <li><a href="index.html">Dashboard</a></li>,
-        <li><a href="settings.html">Settings</a></li>,
-        <li><a href="servers.html">Servers</a></li>,
+        <li><a href="index.html">{t('Headers.ElementDashboard')}</a></li>,
+        <li><a href="settings.html">{t('Headers.ElementSetting')}</a></li>,
+        <li><a href="servers.html">{t('Headers.ElementServer')}</a></li>,
       ]
     } else{
-      return [
-      <li><a href="servers.html">Language: {Language}</a></li>,
-      <li><a href="servers.html">Theme: {Theme}</a></li>
-      ]
+      return (   
+      <>
+        <ButtonTheme />
+        <ButtonLanguage />
+      </>)
+    
     }
   }
-  
-  [
-    <li><a href="index.html">Dashboard</a></li>,
-    <li><a href="settings.html">Settings</a></li>,
-    <li><a href="servers.html">Servers</a></li>,
-  ]
     return(
         <header className="netdata-header">
         <div className="header-left">
-          <img src="./public/"></img>
+          <img id="logo" src="/icons.png"></img>
           <h1>Server Monitoring</h1>
         </div>
         <div className="header-right">

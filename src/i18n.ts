@@ -4,22 +4,20 @@ import enTranslation from './locales/en/translation.json';
 import ruTranslation from './locales/ru/translation.json';
 import store from './state/store';
 
-const resources = {
-  en: {
-    translation: enTranslation,
-  },
-  ru: {
-    translation: ruTranslation,
-  },
-};
-
 i18n.use(initReactI18next).init({
-  resources,
-  lng: 'ru', // Язык по умолчанию — русский
+  lng: store.getState().language.currentLanguage, // Язык по умолчанию — русский
   fallbackLng: 'ru', // Резервный язык — русский
   interpolation: {
     escapeValue: false, // React уже делает экранирование
   },
+  resources:{
+    en: {
+        translation: enTranslation,
+      },
+      ru: {
+        translation: ruTranslation,
+      },
+  }
 });
 
 // Слушаем изменения в Redux
