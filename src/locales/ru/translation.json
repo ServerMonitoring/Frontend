@@ -26,13 +26,19 @@
         "aname":"На главную страницу"
     },
     "SideBarRight":{
-
+        "h2":"Сервера"
     },
     "Headers":{
+        "Theme":{
+            "Name": "Тема",
+            "White": "Светлая",
+            "Black": "Темная"
+        },
         "Language":"Язык",
-        "ElementDashboard":"ДашБорды",
+        "ElementServer":"Сервера",
         "ElementSetting":"Настройки",
-        "ElementServer":"Сервера"
+        "ElementHelp":"Справочник"
+
     },
     "Avatar":{
         

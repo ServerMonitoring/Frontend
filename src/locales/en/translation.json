@@ -30,8 +30,13 @@
 
     },
     "Headers":{
+        "Theme":{
+            "Name": "Theme",
+            "White": "White",
+            "Black": "Black"
+        },
         "Language":"Language",
-        "ElementDashboard":"Dashboard",
+        "ElementHelp":"Справочник",
         "ElementSetting":"Setting",
         "ElementServer":"Server"
     },

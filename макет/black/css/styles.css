@@ -540,3 +540,130 @@ body {
     transform: translateY(0);
   }
 }
+/* styles.css */
+:root {
+  --primary-color: #28a745; /* Основной зеленый цвет */
+  --secondary-color: #17a2b8; /* Вторичный бирюзовый цвет */
+  --background-color: #f9f9f9; /* Светлый фон */
+  --card-background: #ffffff; /* Белый фон карточек */
+  --text-color: #333333; /* Темно-серый текст */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.netdata-header {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.netdata-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.netdata-header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.netdata-header nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.netdata-header a:hover {
+  color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.help-content {
+  display: flex;
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.help-sidebar {
+  flex: 1;
+  background: var(--card-background);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin-right: 2rem;
+}
+
+.help-sidebar h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.help-toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.help-toc li {
+  margin-bottom: 0.5rem;
+}
+
+.toc-link {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.toc-link:hover,
+.toc-link.active {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--primary-color);
+}
+
+.help-main {
+  flex: 3;
+  padding-left: 2rem;
+}
+
+.help-section {
+  display: none;
+}
+
+.help-section.active {
+  display: block;
+}
+
+.netdata-footer {
+  background: var(--card-background);
+  text-align: center;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: var(--shadow);
+  color: var(--text-color);
+}

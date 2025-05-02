@@ -1,5 +1,6 @@
 import NotFoundPage from "../Pages/404error/NotFound";
 import ErrorServer from "../Pages/500error/ErrorServer";
+import HelpPage from "../Pages/Help Page/HelpPage";
 import LoginPage from "../Pages/Login/Login";
 import MonitoringPage from "../Pages/Monitoring/MonitoringPage";
 import SettingsPage from "../Pages/Setting/Setting";
@@ -29,9 +30,15 @@ export const AllPage: UrlPage[]= [
     {   name: "ErrorServer_Page",
         element: <ErrorServer />,
         url: "/errorserver"
-    },    {   name: "Setting_Page",
+    },    
+    {   name: "Setting_Page",
         element: <SettingsPage />,
         url: "/setting"
+    },
+    {
+        name:"Help_Page",
+        element: <HelpPage />,
+        url: "/help"
     }
 ]
 
