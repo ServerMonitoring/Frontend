@@ -5,6 +5,10 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--shadow);
+    img{
+      width: 2.5vw;
+      height: 2.5vw;
+    }
     .header-left{
         display: flex;
         flex-direction: row;

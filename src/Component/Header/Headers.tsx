@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../state/store"
 import { useTranslation } from "react-i18next"
 import { toggleTheme } from "../../state/slice/themeSlice"
+import Avatar from "../Avatar/Avatar"
 
 export default function Headers(){
-  const isAuth = false
+  const isAuth = useSelector((state:RootState) => state.auth.isAuthenticated);
   const {t}= useTranslation();
+
   const dispatch = useDispatch();
   const selectedLang = useSelector((state:RootState) => state.language.currentLanguage);
   const selectedTheme = useSelector((state:RootState) => state.theme.isDarkMode);// Состояние для выбранного языка
@@ -28,7 +30,8 @@ export default function Headers(){
       return [
         <li><a href="/setting">{t('Headers.ElementSetting')}</a></li>,
         <li><a href="/server">{t('Headers.ElementServer')}</a></li>,
-        <li><a href="/help">{t('Headers.ElementHelp')}</a></li>
+        <li><a href="/help">{t('Headers.ElementHelp')}</a></li>,
+        <Avatar />
       ]
     } else{
       return     (
@@ -39,25 +42,13 @@ export default function Headers(){
       onMouseLeave={() => setIsMenuOpenTheme(false)}
     >
       {/* Кнопка с выбранным языком */}
-      <button className="language-button">
-      {t('Headers.Theme.Name')}: {selectedTheme? t('Headers.Theme.Black'):t('Headers.Theme.White')}
-      </button>
-
-      {/* Выпадающее меню */}
-      {isMenuOpenTheme && (
-        <ul className="dropdown-menu">
-          <li>
-            <a  onClick={() => handleThemeClick(true)}>
-              {t('Headers.Theme.Black')}
-            </a>
-          </li>
-          <li>
-            <a  onClick={() => handleThemeClick(false)}>
-              {t('Headers.Theme.White')}
-            </a>
-          </li>
-        </ul>
+      <button className="language-button" onClick={() => handleThemeClick(!selectedTheme)}>
+      {selectedTheme ? (
+        <span className="icon moon">🌙</span>
+      ) : (
+        <span className="icon sun">☀️</span>
       )}
+    </button>
     </div>
       <div
       className="language-dropdown"
@@ -91,7 +82,7 @@ export default function Headers(){
     return(
         <header className="netdata-header">
         <div className="header-left">
-          <img src="./public/"></img>
+          <img src="/icons.png"></img>
           <h1>Server Monitoring</h1>
         </div>
         <div className="header-right">

@@ -29,7 +29,7 @@ const themeSlice = createSlice({
         root.style.setProperty("--background-color", "#ffffff");
         root.style.setProperty("--card-background", "#f9f9f9");
         root.style.setProperty("--text-color", "#333333");
-        root.style.setProperty("--shadow", "0 4px 12px rgba(0, 0, 0, 0.1)");
+        root.style.setProperty("--shadow", "0 4px 12px rgba(0, 0, 0, 0.2)");
       }
     },
   },

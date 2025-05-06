@@ -1,16 +1,42 @@
+import { useState } from "react";
 import "./Avatar.scss"
+import { useDispatch } from "react-redux";
+import { logout } from "../../state/slice/authslice";
+import { useNavigate } from "react-router-dom";
+
 export default function Avatar(){
+      const urlLogin = "/auth"
+      const navigator = useNavigate();
+      const dispatch = useDispatch();
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+      const handleOpenProfileClick = () => {
+          setIsMenuOpen(false); // Закрываем меню после выбора
+        };
+        const handleGotoHomeClick = () => {
+          dispatch(logout());
+          navigator(urlLogin)
+          setIsMenuOpen(false); // Закрываем меню после выбора
+        };
     return(
         <>
-        <div className="user-avatar" id="user-avatar">
+        <div className="user-avatar" id="user-avatar"       
+        onMouseEnter={() => setIsMenuOpen(true)}
+        onMouseLeave={() => setIsMenuOpen(false)}>
         <span>J</span> 
-        <div className="dropdown-menu" id="dropdown-menu">
-          <ul>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="settings.html">Settings</a></li>
-            <li><a href="logout.html">Logout</a></li>
-          </ul>
-        </div>
+        {isMenuOpen && (
+        <ul className="dropdown-menu">
+          <li>
+            <a onClick={handleOpenProfileClick}>
+              Профиль
+            </a>
+          </li>
+          <li>
+            <a onClick={() => {handleGotoHomeClick}}>
+              Выйти из Аккаунта
+            </a>
+          </li>
+        </ul>
+      )}
       </div>
       </>
     )

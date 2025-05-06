@@ -1,7 +1,9 @@
+import Loader from "../Component/Loader/Lodader";
 import NotFoundPage from "../Pages/404error/NotFound";
 import ErrorServer from "../Pages/500error/ErrorServer";
 import HelpPage from "../Pages/Help Page/HelpPage";
 import LoginPage from "../Pages/Login/Login";
+import ServersPage from "../Pages/MenuServer/MenuServer";
 import MonitoringPage from "../Pages/Monitoring/MonitoringPage";
 import SettingsPage from "../Pages/Setting/Setting";
 
@@ -16,7 +18,7 @@ export const AllPage: UrlPage[]= [
     {
         name: "Server_Page",
         element: <MonitoringPage />,
-        url: "/server"
+        url: "/server/:id"
     },
     {
         name: "Login_Page",
@@ -36,14 +38,72 @@ export const AllPage: UrlPage[]= [
         url: "/setting"
     },
     {
+        name:"Menu_Server_Page",
+        element: <ServersPage />,
+        url: "/server"
+    },
+    {
         name:"Help_Page",
         element: <HelpPage />,
         url: "/help"
-    }
+    }, {
+        name:"Help_Page",
+        element: <Loader />,
+        url: "/loader"
+    },
+
 ]
 
+export const No_AuthPage: UrlPage[]= [
+
+    {
+        name: "Login_Page",
+        element: <LoginPage />,
+        url: "/auth"
+    },
+    {   name: "NorFound_Page",
+        element: <NotFoundPage />,
+        url: "*"
+    },
+    {   name: "ErrorServer_Page",
+        element: <ErrorServer />,
+        url: "/errorserver"
+    }
+]
+export const UserPage: UrlPage[] =[
+
+    {   name: "NorFound_Page",
+        element: <NotFoundPage />,
+        url: "*"
+    },
+    {   name: "ErrorServer_Page",
+        element: <ErrorServer />,
+        url: "/errorserver"
+    },    
+    {   name: "Setting_Page",
+        element: <SettingsPage />,
+        url: "/setting"
+    },
+    {
+        name:"Menu_Server_Page",
+        element: <ServersPage />,
+        url: "/server"
+    },
+    {
+        name: "Server_Page",
+        element: <MonitoringPage />,
+        url: "/server/:id"
+    },
+    {
+        name:"Help_Page",
+        element: <HelpPage />,
+        url: "/help"
+    } 
+]
+
+
 // Функция для получения элемента по имени
-export function getPageElementByName(name: string): JSX.Element | null {
-    const page = AllPage.find(page => page.name === name);
+export function getPageElementByName(name: string, Page:UrlPage[]): JSX.Element | null {
+    const page = Page.find(page => page.name === name);
     return page ? page.element : null;
 }

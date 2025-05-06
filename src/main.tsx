@@ -12,8 +12,8 @@ i18n.init()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <Headers />
       <BrowserRouter>
+        <Headers />
         <App />
       </BrowserRouter>
     </Provider>

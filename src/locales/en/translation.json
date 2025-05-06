@@ -9,7 +9,15 @@
         "buttonname":"Login"
     },
     "Monitoring":{
+        "SideBarRight":{
+            "h2":"Servers"
+        },
+        "Tab-content":{
 
+        },
+        "Main-content":{
+            
+        }
     },
     "NotFound":{
         "h1":"404",
@@ -25,10 +33,6 @@
         "p2":"We're working to fix the issue. Please try again later.",
         "aname":"To the main page"
     },
-    "SideBarRight":{
-        "h2":"Servers"
-
-    },
     "Headers":{
         "Theme":{
             "Name": "Theme",
@@ -36,7 +40,7 @@
             "Black": "Black"
         },
         "Language":"Language",
-        "ElementHelp":"Справочник",
+        "ElementHelp":"Help",
         "ElementSetting":"Setting",
         "ElementServer":"Server"
     },

@@ -23,7 +23,13 @@ const SettingsPage = () => {
               className={`tab-button ${activeTab === "user-settings" ? "active" : ""}`}
               onClick={() => handleTabClick("user-settings")}
             >
-              User Settings
+              User
+            </button>
+            <button
+              className={`tab-button ${activeTab === "user-settings" ? "active" : ""}`}
+              onClick={() => handleTabClick("user-settings")}
+            >
+              Server
             </button>
             <button
               className={`tab-button ${activeTab === "design-settings" ? "active" : ""}`}
