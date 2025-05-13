@@ -20,7 +20,7 @@ export default function LoginForm(){
     username:username,
     password:password,
     token:"asdad",
-    role:"auth"
+    role:"admin"
   }
   const onSubmit = (data: any) => {
     console.log(data)

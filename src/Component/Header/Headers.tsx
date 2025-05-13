@@ -13,7 +13,7 @@ export default function Headers(){
 
   const dispatch = useDispatch();
   const selectedLang = useSelector((state:RootState) => state.language.currentLanguage);
-  const selectedTheme = useSelector((state:RootState) => state.theme.isDarkMode);// Состояние для выбранного языка
+  const selectedTheme = useSelector((state:RootState) => state.theme.isDarkMode);
   const ArrHeadersRight=()=>{
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMenuOpenTheme, setIsMenuOpenTheme] = useState(false); // Состояние для видимости меню

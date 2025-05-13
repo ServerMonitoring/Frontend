@@ -3,10 +3,13 @@ import "./Setting.scss"
 import UserSettings from "../../Component/Setting/TabUserSetting/UserSetting";
 import DesignSettings from "../../Component/Setting/TabDesignSetting/DesignSetting";
 import OtherSettings from "../../Component/Setting/TabOtherSetting/OtherSetting";
+import ServerSettings from "../../Component/Setting/TabServerSetting/ServerSetting";
+import { RootState } from "../../state/store";
+import { useSelector } from "react-redux";
 // Компонент для вкладок
 const SettingsPage = () => {
-    const [activeTab, setActiveTab] = useState("user-settings"); // Состояние активной вкладки
-  
+    const [activeTab, setActiveTab] = useState("design-settings"); // Состояние активной вкладки
+    const userRole = useSelector((state: RootState) => state.auth.user.role);
     // Обработчик переключения вкладок
     const handleTabClick = (tab:string) => {
       setActiveTab(tab);
@@ -16,21 +19,34 @@ const SettingsPage = () => {
       <main className="netdata-content">
         <section id="settings" className="page active">
           <h2>Settings</h2>
-  
-          {/* Вкладки */}
-          <div className="tabs">
-            <button
-              className={`tab-button ${activeTab === "user-settings" ? "active" : ""}`}
-              onClick={() => handleTabClick("user-settings")}
-            >
-              User
-            </button>
-            <button
-              className={`tab-button ${activeTab === "user-settings" ? "active" : ""}`}
-              onClick={() => handleTabClick("user-settings")}
-            >
-              Server
-            </button>
+          {
+
+             userRole == 'admin'? <div className="tabs">
+             <button
+               className={`tab-button ${activeTab === "user-settings" ? "active" : ""}`}
+               onClick={() => handleTabClick("user-settings")}
+             >
+               User
+             </button>
+             <button
+               className={`tab-button ${activeTab === "server-settings" ? "active" : ""}`}
+               onClick={() => handleTabClick("server-settings")}
+             >
+               Server
+             </button>
+             <button
+               className={`tab-button ${activeTab === "design-settings" ? "active" : ""}`}
+               onClick={() => handleTabClick("design-settings")}
+             >
+               Design Settings
+             </button>
+             <button
+               className={`tab-button ${activeTab === "other-settings" ? "active" : ""}`}
+               onClick={() => handleTabClick("other-settings")}
+             >
+               Other Settings
+             </button>
+           </div> : <div className="tabs">
             <button
               className={`tab-button ${activeTab === "design-settings" ? "active" : ""}`}
               onClick={() => handleTabClick("design-settings")}
@@ -44,10 +60,10 @@ const SettingsPage = () => {
               Other Settings
             </button>
           </div>
-  
-          {/* Содержимое вкладок */}
+          }
           <div className="tab-content">
             {activeTab === "user-settings" && <UserSettings />}
+            {activeTab === "server-settings" && <ServerSettings />}
             {activeTab === "design-settings" && <DesignSettings />}
             {activeTab === "other-settings" && <OtherSettings />}
           </div>

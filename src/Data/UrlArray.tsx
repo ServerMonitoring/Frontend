@@ -5,6 +5,7 @@ import HelpPage from "../Pages/Help Page/HelpPage";
 import LoginPage from "../Pages/Login/Login";
 import ServersPage from "../Pages/MenuServer/MenuServer";
 import MonitoringPage from "../Pages/Monitoring/MonitoringPage";
+import ProfileUser from "../Pages/ProfileUser/ProfileUser";
 import SettingsPage from "../Pages/Setting/Setting";
 
 interface UrlPage{
@@ -46,10 +47,16 @@ export const AllPage: UrlPage[]= [
         name:"Help_Page",
         element: <HelpPage />,
         url: "/help"
-    }, {
+    }, 
+    {
         name:"Help_Page",
         element: <Loader />,
         url: "/loader"
+    },
+    {
+        name:"ProfileUser_Page",
+        element: <ProfileUser />,
+        url: "/profile"
     },
 
 ]

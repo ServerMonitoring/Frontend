@@ -6,15 +6,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function Avatar(){
       const urlLogin = "/auth"
+      const urlLK = "/profile"
       const navigator = useNavigate();
       const dispatch = useDispatch();
       const [isMenuOpen, setIsMenuOpen] = useState(false);
       const handleOpenProfileClick = () => {
+          navigator(urlLK);
           setIsMenuOpen(false); // Закрываем меню после выбора
         };
         const handleGotoHomeClick = () => {
           dispatch(logout());
-          navigator(urlLogin)
+          navigator(urlLogin);
           setIsMenuOpen(false); // Закрываем меню после выбора
         };
     return(
@@ -26,12 +28,12 @@ export default function Avatar(){
         {isMenuOpen && (
         <ul className="dropdown-menu">
           <li>
-            <a onClick={handleOpenProfileClick}>
+            <a onClick={()=>{handleOpenProfileClick()}}>
               Профиль
             </a>
           </li>
           <li>
-            <a onClick={() => {handleGotoHomeClick}}>
+            <a onClick={() => {handleGotoHomeClick()}}>
               Выйти из Аккаунта
             </a>
           </li>

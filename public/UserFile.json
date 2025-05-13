@@ -8,7 +8,7 @@
       },
       {
         "id": 2,
-        "login": "john_doe",
+        "username": "john_doe",
         "password": "hashed_password_456",
         "role": "user"
       },
