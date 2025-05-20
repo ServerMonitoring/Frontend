@@ -51,7 +51,8 @@ export default function UserSettings() {
             <th>ID</th>
             <th>Username</th>
             <th>Role</th>
-            <th>Actions</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +64,11 @@ export default function UserSettings() {
               <td>
                 <button className="delete-btn" onClick={() => deleteUser(user.id)}>
                   Delete
+                </button>
+              </td>
+              <td>
+                <button className="delete-btn" onClick={() => deleteUser(user.id)}>
+                  Edit
                 </button>
               </td>
             </tr>

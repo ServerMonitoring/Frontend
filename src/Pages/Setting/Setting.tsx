@@ -40,12 +40,13 @@ const SettingsPage = () => {
              >
                Design Settings
              </button>
-             <button
-               className={`tab-button ${activeTab === "other-settings" ? "active" : ""}`}
-               onClick={() => handleTabClick("other-settings")}
-             >
-               Other Settings
-             </button>
+{           //  <button
+            //   className={`tab-button ${activeTab === "other-settings" ? "active" : ""}`}
+          //     onClick={() => handleTabClick("other-settings")}
+           //  >
+            //</div>   Other Settings
+           //  </button>
+             }
            </div> : <div className="tabs">
             <button
               className={`tab-button ${activeTab === "design-settings" ? "active" : ""}`}
@@ -53,19 +54,21 @@ const SettingsPage = () => {
             >
               Design Settings
             </button>
-            <button
-              className={`tab-button ${activeTab === "other-settings" ? "active" : ""}`}
-              onClick={() => handleTabClick("other-settings")}
-            >
-              Other Settings
-            </button>
+{       //     <button
+          //    className={`tab-button ${activeTab === "other-settings" ? "active" : ""}`}
+             // onClick={() => handleTabClick("other-settings")}
+          //</div>  >
+           //   Other Settings
+           //</section> </button>
+           }
           </div>
           }
           <div className="tab-content">
             {activeTab === "user-settings" && <UserSettings />}
             {activeTab === "server-settings" && <ServerSettings />}
             {activeTab === "design-settings" && <DesignSettings />}
-            {activeTab === "other-settings" && <OtherSettings />}
+            {//activeTab === "other-settings" && <OtherSettings />
+            }
           </div>
         </section>
       </main>

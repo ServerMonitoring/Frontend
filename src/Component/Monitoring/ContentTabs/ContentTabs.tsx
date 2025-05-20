@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MetricChart from "../MetricChart/MetricHart";
+import ServerDetails from "../Tabs/GeneralTabs/GeneralTabs";
 
 interface Metrics {
   cpu: number[];
@@ -70,7 +71,7 @@ const ContentTabs: React.FC<ContentTabsProps> = ({ metrics }) => {
 
       {/* Графики */}
       <div className="tab-content">
-        {activeTab === "Общие характеристики" && <MetricChart title="CPU Usage" data={metrics.cpu} />}
+        {activeTab === "Общие характеристики" && <ServerDetails />}
         {activeTab === "cpu" && <MetricChart title="CPU Usage" data={metrics.cpu} />}
         {activeTab === "memory" && <MetricChart title="Memory Usage" data={metrics.memory} />}
         {activeTab === "disk" && <MetricChart title="Disk Usage" data={metrics.disk} />}

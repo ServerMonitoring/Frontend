@@ -51,7 +51,8 @@ export default function ServerSettings() {
             <th>ID</th>
             <th>Name</th>
             <th>IP Address</th>
-            <th>Actions</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +64,11 @@ export default function ServerSettings() {
               <td>
                 <button className="delete-btn" onClick={() => deleteServer(server.id)}>
                   Delete
+                </button>
+              </td>
+              <td>
+                <button className="delete-btn" onClick={() => deleteServer(server.id)}>
+                  Edit
                 </button>
               </td>
             </tr>

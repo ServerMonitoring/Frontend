@@ -5,7 +5,7 @@ interface AuthState {
   isAuthenticated: boolean
   user: {
     id: string | null
-    name: string | null
+    username: string | null
     role: string | null
     token: string | null
   }
@@ -28,7 +28,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   user: {
     id: null,
-    name: null,
+    username: null,
     role: null,
     token: null
   }
@@ -40,7 +40,7 @@ const authSlice = createSlice({
   initialState: loadInitialState(), // Используем восстановленное состояние
   reducers: {
     // Авторизация
-    login: (state, action: PayloadAction<{ id: string; name: string; token: string; role: string }>) => {
+    login: (state, action: PayloadAction<{ id: string; username: string; token: string; role: string }>) => {
       state.isAuthenticated = true
       state.user = action.payload
       // Сохраняем в localStorage
@@ -52,7 +52,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false
       state.user = {
         id: null,
-        name: null,
+        username: null,
         role: null,
         token: null
       }

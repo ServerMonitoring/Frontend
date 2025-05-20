@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "./Avatar.scss"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../state/slice/authslice";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../state/store";
 
 export default function Avatar(){
       const urlLogin = "/auth"
+        // Получаем ник из Redux
+      const username = useSelector((state: RootState) => state.auth.user.username);
       const urlLK = "/profile"
       const navigator = useNavigate();
       const dispatch = useDispatch();
@@ -24,7 +27,7 @@ export default function Avatar(){
         <div className="user-avatar" id="user-avatar"       
         onMouseEnter={() => setIsMenuOpen(true)}
         onMouseLeave={() => setIsMenuOpen(false)}>
-        <span>J</span> 
+        <span>{username?.charAt(0).toUpperCase()}</span> 
         {isMenuOpen && (
         <ul className="dropdown-menu">
           <li>
