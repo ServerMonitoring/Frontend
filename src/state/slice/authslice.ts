@@ -4,7 +4,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface AuthState {
   isAuthenticated: boolean
   user: {
-    id: string | null
     username: string | null
     role: string | null
     token: string | null
@@ -27,7 +26,6 @@ const loadInitialState = (): AuthState => {
 const initialState: AuthState = {
   isAuthenticated: false,
   user: {
-    id: null,
     username: null,
     role: null,
     token: null
@@ -40,7 +38,7 @@ const authSlice = createSlice({
   initialState: loadInitialState(), // Используем восстановленное состояние
   reducers: {
     // Авторизация
-    login: (state, action: PayloadAction<{ id: string; username: string; token: string; role: string }>) => {
+    login: (state, action: PayloadAction<{  username: string; token: string; role: string }>) => {
       state.isAuthenticated = true
       state.user = action.payload
       // Сохраняем в localStorage
@@ -51,10 +49,9 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false
       state.user = {
-        id: null,
         username: null,
-        role: null,
-        token: null
+        token: null,
+        role: null
       }
       // Удаляем из localStorage
       localStorage.removeItem('auth')

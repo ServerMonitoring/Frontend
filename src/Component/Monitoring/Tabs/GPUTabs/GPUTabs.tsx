@@ -1,4 +1,4 @@
-export default function GPUTAbs(){
+export default function GPUTAbs({ Timeout }){
     return(
         <>
         

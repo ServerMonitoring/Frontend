@@ -1,4 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../state/RootReduceer';
+import { api } from './config';
 
 // Базовые интерфейсы
 interface BaseCriteria {
@@ -155,51 +158,49 @@ interface GpuMetricResponse {
 }
 
 // Класс для работы с метриками
-class MetricService {
-  private apiClient: AxiosInstance;
-
-  constructor(baseURL: string) {
-    this.apiClient = axios.create({
-      baseURL,
+    const apiClient = axios.create({
+      baseURL: api,
       headers: {
         'Content-Type': 'application/json',
       },
     });
-  }
 
   // Получение всех метрик
-  async getMetrics(request: MetricRequest): Promise<MetricResponse[]> {
-    const response = await this.apiClient.post<MetricResponse[]>('/api/metric', request);
+  export async function getMetrics(request: MetricRequest): Promise<MetricResponse[]> {
+    const response = await apiClient.post<MetricResponse[]>('/api/metric', request);
     return response.data;
   }
 
   // Получение статических характеристик сервера
-  async getStaticMetrics(request: StaticMetricRequest): Promise<StaticMetricResponse[]> {
-    const response = await this.apiClient.post<StaticMetricResponse[]>('/api/metric/static', request);
-    return response.data;
+  export async function  getStaticMetrics(jwt:string,idserver:number): Promise<any> {
+    const response = await apiClient.post<StaticMetricResponse[]>('/api/server/full_info', {id: idserver},{        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+    });
+    return response;
   }
 
   // Получение метрик памяти
-  async getMemoryMetrics(request: MetricRequest): Promise<MemoryMetricResponse[]> {
-    const response = await this.apiClient.post<MemoryMetricResponse[]>('/api/metric/memory', request);
+  async function getMemoryMetrics(request: MetricRequest): Promise<MemoryMetricResponse[]> {
+    const response = await apiClient.post<MemoryMetricResponse[]>('/api/metric/memory', request);
     return response.data;
   }
 
   // Получение метрик swap
-  async getSwapMetrics(request: MetricRequest): Promise<SwapMetricResponse[]> {
-    const response = await this.apiClient.post<SwapMetricResponse[]>('/api/metric/swap', request);
+  async function  getSwapMetrics(request: MetricRequest): Promise<SwapMetricResponse[]> {
+    const response = await apiClient.post<SwapMetricResponse[]>('/api/metric/swap', request);
     return response.data;
   }
 
   // Получение метрик CPU
-  async getCpuMetrics(request: MetricRequest): Promise<CpuMetricResponse[]> {
-    const response = await this.apiClient.post<CpuMetricResponse[]>('/api/metric/cpu', request);
+  async function getCpuMetrics(request: MetricRequest): Promise<CpuMetricResponse[]> {
+    const response = await apiClient.post<CpuMetricResponse[]>('/api/metric/cpu', request);
     return response.data;
   }
 
   // Получение сетевых соединений
-  async getNetworkConnections(request: MetricRequest): Promise<NetworkConnectionMetricResponse[]> {
-    const response = await this.apiClient.post<NetworkConnectionMetricResponse[]>(
+  async function getNetworkConnections(request: MetricRequest): Promise<NetworkConnectionMetricResponse[]> {
+    const response = await apiClient.post<NetworkConnectionMetricResponse[]>(
       '/api/metric/network_connection',
       request
     );
@@ -207,20 +208,20 @@ class MetricService {
   }
 
   // Получение данных сетевых интерфейсов
-  async getNetInterfaceMetrics(request: MetricRequest): Promise<NetInterfaceMetricResponse[]> {
-    const response = await this.apiClient.post<NetInterfaceMetricResponse[]>('/api/metric/net_interface', request);
+  async function  getNetInterfaceMetrics(request: MetricRequest): Promise<NetInterfaceMetricResponse[]> {
+    const response = await apiClient.post<NetInterfaceMetricResponse[]>('/api/metric/net_interface', request);
     return response.data;
   }
 
   // Получение данных дисков
-  async getDiskMetrics(request: DiskMetricRequest): Promise<Record<string, DiskMetricResponse[]>> {
-    const response = await this.apiClient.post<Record<string, DiskMetricResponse[]>>('/api/metric/disks', request);
+  async function getDiskMetrics(request: DiskMetricRequest): Promise<Record<string, DiskMetricResponse[]>> {
+    const response = await apiClient.post<Record<string, DiskMetricResponse[]>>('/api/metric/disks', request);
     return response.data;
   }
 
   // Получение IO данных дисков
-  async getDiskIOMetrics(request: DiskIORequest): Promise<Record<string, DiskIOMetricResponse[]>> {
-    const response = await this.apiClient.post<Record<string, DiskIOMetricResponse[]>>(
+  async function getDiskIOMetrics(request: DiskIORequest): Promise<Record<string, DiskIOMetricResponse[]>> {
+    const response = await apiClient.post<Record<string, DiskIOMetricResponse[]>>(
       '/api/metric/disksIO',
       request
     );
@@ -228,10 +229,8 @@ class MetricService {
   }
 
   // Получение данных GPU
-  async getGpuMetrics(request: GpuMetricRequest): Promise<Record<string, GpuMetricResponse[]>> {
-    const response = await this.apiClient.post<Record<string, GpuMetricResponse[]>>('/api/metric/gpu', request);
+  async function  getGpuMetrics(request: GpuMetricRequest): Promise<Record<string, GpuMetricResponse[]>> {
+    const response = await apiClient.post<Record<string, GpuMetricResponse[]>>('/api/metric/gpu', request);
     return response.data;
   }
-}
 
-export default MetricService;

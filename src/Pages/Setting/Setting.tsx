@@ -21,7 +21,7 @@ const SettingsPage = () => {
           <h2>Settings</h2>
           {
 
-             userRole == 'admin'? <div className="tabs">
+             userRole == 'ADMIN'? <div className="tabs">
              <button
                className={`tab-button ${activeTab === "user-settings" ? "active" : ""}`}
                onClick={() => handleTabClick("user-settings")}

@@ -2,12 +2,16 @@ import { useTranslation } from "react-i18next";
 import "./SidebarRight.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getmininfoServer } from "../../../API/serverapi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/RootReduceer";
 
 interface Server {
-  id: number;
-  name: string;
+  idserver: number;
+  serverName: string;
   address: string;
-  status: "online" | "offline";
+  hostname:string;
+  adddInfo:string;
 }
 
 function extractLastNumberFromURL(url: string): number | null {
@@ -21,19 +25,19 @@ export default function SideBarRight() {
   const [servers, setServers] = useState<Server[]>([]);
   const [isCollapsed, setIsCollapsed] = useState(false); // Состояние для скрытия/раскрытия панели
   const id = extractLastNumberFromURL(window.location.href);
+   const jwt  = useSelector((state:RootState) =>( state.auth.user.token));
 
-  useEffect(() => {
-    fetch("/serverData.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setServers(data);
-        const found = data.find((obj: Server) => obj.id === id);
-        if (!found) {
-          navigate("/error404");
-        }
-      })
-      .catch((error) => console.error("Error loading server data:", error));
-  }, []);
+  useEffect(() =>{
+    async function getAllServer(){
+      await getmininfoServer(jwt).then((response)=>{
+
+          console.log(response.data)
+          setServers(response.data)
+    })
+    }
+    getAllServer()
+  
+  },[])
 
   return (
     <aside className={`netdata-sidebar ${isCollapsed ? "collapsed" : ""}`}>
@@ -56,9 +60,9 @@ export default function SideBarRight() {
         <>
           <ul id="sidebar-server-list">
             {servers.map((server) => (
-              <li key={server.id}>
-                <a href={`/server/${server.id}`} className={server.id === id ? "active" : ""}>
-                  {server.name}
+              <li key={server.idserver}>
+                <a href={`/server/${server.idserver}`} className={server.idserver === id ? "active" : ""}>
+                  {server.serverName?server.serverName: server.address }
                 </a>
               </li>
             ))}

@@ -2,10 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Server {
-  id: number;
-  name: string;
+  idserver: number;
+  serverName: string;
   address: string;
-  status: "online" | "offline";
+  hostname:string;
+  adddInfo:string;
 }
 
 interface ServerListProps {
@@ -17,17 +18,10 @@ const ServerList: React.FC<ServerListProps> = ({ servers }) => {
   return (
     <ul className="server-list">
       {servers.map((server) => (
-        <li onClick={()=>{navigator(`/server/${server.id}`)}} key={server.id} className="server-item">
+        <li onClick={()=>{navigator(`/server/${server.idserver}`)}} key={server.idserver} className="server-item">
           <div className="server-info">
-            <h3>{server.name}</h3>
-            <p>{server.address}</p>
-          </div>
-          <div
-            className={`status-indicator ${
-              server.status === "online" ? "online" : "offline"
-            }`}
-          >
-            {server.status.toUpperCase()}
+            <h3>{server.serverName}</h3>
+            <p>{server.hostname + `(${server.address})`}</p>
           </div>
         </li>
       ))}

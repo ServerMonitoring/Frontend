@@ -1,39 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Chart from "react-apexcharts";
 import "./MetricChart.scss";
 
 interface MetricChartProps {
   title: string;
   data: number[];
+  description?: string; // Описание метрики (необязательное)
+  limit?: number; // Предельное значение (необязательное)
 }
 
-const MetricChart: React.FC<MetricChartProps> = ({ title, data }) => {
-  const [timeRange, setTimeRange] = useState("1h"); // По умолчанию "1 час"
-
-  // Функция для фильтрации данных в зависимости от временного интервала
-  const getFilteredData = () => {
-    switch (timeRange) {
-      case "1m":
-        return data.slice(-1); // Последняя минута
-      case "5m":
-        return data.slice(-5); // Последние 5 минут
-      case "15m":
-        return data.slice(-15); // Последние 15 минут
-      case "1h":
-        return data.slice(-60); // Последний час (60 минут)
-      case "1d":
-        return data.slice(-1440); // Последний день (1440 минут)
-      case "1w":
-        return data.slice(-10080); // Последняя неделя (10080 минут)
-      case "1mo":
-        return data.slice(-43200); // Последний месяц (43200 минут)
-      default:
-        return data; // Все данные
-    }
-  };
-
-  const filteredData = getFilteredData();
-
+const MetricChart: React.FC<MetricChartProps> = ({ title, data, description, limit }) => {
+  // Настройки графика
   const chartOptions = {
     chart: {
       toolbar: {
@@ -41,80 +18,84 @@ const MetricChart: React.FC<MetricChartProps> = ({ title, data }) => {
       },
     },
     xaxis: {
-      categories: Array.from({ length: filteredData.length }, (_, i) => `T-${i + 1}`), // Динамические метки времени
+      categories: Array.from({ length: data.length }, (_, i) => `T-${i + 1}`), 
+        labels: {
+          style:{
+         colors: "var(--text-color)",}, // Цвет текста в легенде
+        },
     },
-    colors: ["var(--primary-color)"], // Используем CSS-переменную
+     yaxis: {
+      labels: {
+        style: {
+          colors: "var(--text-color)", // Цвет текста меток Y-оси
+        },
+      },
+    },
+    colors: ["var(--primary-color)", "var(--secondary-color)"], // Используем CSS-переменные
     stroke: {
       curve: "smooth",
     },
+    legend: {
+      labels: {
+        colors: "var(--text-color)", // Цвет текста в легенде
+      },
+    markers: {
+      size: 4, // Размер точек на графике
+    },
+  },
+    annotations: {
+      yaxis: limit
+        ? [
+            {
+              y: limit,
+              borderColor: "var(--secondary-color)",
+              label: {
+                borderColor: "var(--secondary-color)",
+                style: {
+                  color: "#fff",
+                  background: "var(--secondary-color)",
+                },
+                text: `Limit: ${limit}`,
+              },
+            },
+          ]
+        : [],
+    },
   };
 
-  // Функция для перенаправления
-  const handleInfoClick = () => {
-    window.location.href = "/info"; // Замените "/info" на нужный URL
-  };
+  // Серии данных для графика
+  const chartSeries = [
+    {
+      name: title,
+      data: data,
+    },
+    ...(limit
+      ? [
+          {
+            name: "Limit",
+            data: Array(data.length).fill(limit), // Горизонтальная линия предельного значения
+          },
+        ]
+      : []),
+  ];
 
   return (
     <div className="metric-chart">
       {/* Заголовок с иконкой вопроса */}
       <div className="chart-header">
         <h3>{title}</h3>
-        <div className="info-icon" onClick={handleInfoClick}>
-          <span className="icon">?</span>
-          <div className="tooltip">Click for more info</div>
-        </div>
-      </div>
-
-      {/* Переключатель времени */}
-      <div className="time-range-selector">
-        <button
-          className={timeRange === "1m" ? "active" : ""}
-          onClick={() => setTimeRange("1m")}
-        >
-          1 Minute
-        </button>
-        <button
-          className={timeRange === "5m" ? "active" : ""}
-          onClick={() => setTimeRange("5m")}
-        >
-          5 Minutes
-        </button>
-        <button
-          className={timeRange === "15m" ? "active" : ""}
-          onClick={() => setTimeRange("15m")}
-        >
-          15 Minutes
-        </button>
-        <button
-          className={timeRange === "1h" ? "active" : ""}
-          onClick={() => setTimeRange("1h")}
-        >
-          1 Hour
-        </button>
-        <button
-          className={timeRange === "1d" ? "active" : ""}
-          onClick={() => setTimeRange("1d")}
-        >
-          1 Day
-        </button>
-        <button
-          className={timeRange === "1w" ? "active" : ""}
-          onClick={() => setTimeRange("1w")}
-        >
-          1 Week
-        </button>
-        <button
-          className={timeRange === "1mo" ? "active" : ""}
-          onClick={() => setTimeRange("1mo")}
-        >
-          1 Month
-        </button>
+        {description && (
+          <div className="info-icon">
+            <span className="icon">?</span>
+            <div className="tooltip">{description}</div>
+          </div>
+        )}
       </div>
 
       {/* График */}
       <Chart
         options={chartOptions}
-        series={[{ name: title, data: filteredData }]}
+        series={chartSeries}
         type="line"
         width="100%"
         height="300px"

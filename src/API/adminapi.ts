@@ -1,15 +1,20 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../state/RootReduceer';
 import { api } from './config';
 
-// Интерфейсы для запроса и ответа
-interface CreateServerRequest {
-  address: string;
+// Интерфейс для пользователя
+interface User {
+  userId: number;
+  name: string;
+  surname: string;
+  patronymic: string;
+  department: string;
+  position: string;
+  login: string;
+  preferredLanguage: 'RUSSIAN' | 'ENGLISH' | null;
   addInfo: string;
-  serverName: string;
-}
-
-interface CreateServerResponse {
-  token: string;
+  role: string;
 }
 
 // Создание экземпляра Axios
@@ -20,38 +25,35 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 
-// Функция для создания сервера
-async function createServer(serverData: CreateServerRequest,jwt:string): Promise<CreateServerResponse> {
+// Получение всех пользователей
+async function getListUsers(jwt: string): Promise<User[]> {
   try {
-    const response = await apiClient.post<CreateServerResponse>(
-      '/api/server/create',
-      serverData,
-        {
+    const response = await apiClient.get<User[]>('/api/admin',{
         headers: {
             Authorization: `Bearer ${jwt}`,
         }
-    }
-    );
+    });
     return response.data;
   } catch (error) {
-    console.error('Ошибка при создании сервера:', error);
+    console.error('Ошибка при получении пользователей:', error);
     throw error;
   }
 }
-async function getmininfoServer(jwt:string) {
+
+// Удаление пользователя
+async function deleteOneUser(userId: number,jwt:string): Promise<void> {
   try {
-    const response = await apiClient.post(
-      '/api/server/min_info',{},
-        {
+    await apiClient.delete(`/api/admin`,{
         headers: {
             Authorization: `Bearer ${jwt}`,
+        },
+        body:{
+            userId
         }
-    }
-    );
-    console.log(response)
-    return response;
+    });
+    console.log(`Пользователь с ID ${userId} успешно удален.`);
   } catch (error) {
-    console.error('Ошибка при создании сервера:', error);
+    console.error('Ошибка при удалении пользователя:', error);
     throw error;
   }
 }
@@ -75,4 +77,4 @@ async function handleServerError<T>(promise: Promise<T>) {
   }
 }
 
-export { createServer, handleServerError,getmininfoServer };
+export { getListUsers, deleteOneUser, handleServerError };

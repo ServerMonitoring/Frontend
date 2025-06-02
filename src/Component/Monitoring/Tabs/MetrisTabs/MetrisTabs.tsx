@@ -1,4 +1,4 @@
-export default function MetricsAbs(){
+export default function MetricsAbs({ Timeout }){
     return(
         <>
         

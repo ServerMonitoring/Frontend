@@ -1,4 +1,4 @@
-export default function SwapTAbs(){
+export default function SwapTAbs({ Timeout }){
     return(
         <>
         

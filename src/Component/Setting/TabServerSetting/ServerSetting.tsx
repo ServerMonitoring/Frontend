@@ -1,21 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ServerSettings.scss";
+import { getmininfoServer } from "../../../API/serverapi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/RootReduceer";
 
 interface Server {
-  id: number;
-  name: string;
-  ip: string;
+  idserver: number;
+  serverName: string;
+  address: string;
+  hostname:string;
+  addInfo:string;
+}
+
+interface newServer{
+  serverName: string;
+  address: string;
+  addInfo:string;
 }
 
 export default function ServerSettings() {
   const [servers, setServers] = useState<Server[]>([
-    { id: 1, name: "Main Server", ip: "192.168.1.10" },
-    { id: 2, name: "Backup Server", ip: "192.168.1.11" },
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newServer, setNewServer] = useState({ name: "", ip: "" });
+  const [token,settoken]= useState("");
+  const [newServer, setNewServer] = useState<newServer>({
+    serverName: "",
+    address:"",
+    addInfo:""
+  });
+   const jwt  = useSelector((state:RootState) =>( state.auth.user.token));
 
+  useEffect(() =>{
+    async function getAllServer(){
+      await getmininfoServer(jwt).then((response)=>{
+
+          console.log(response.data)
+          setServers(response.data)
+    })
+    }
+    getAllServer()
+  
+  },[])
   // Открытие/закрытие модального окна
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -29,15 +55,12 @@ export default function ServerSettings() {
   const addServer = () => {
     if (!newServer.name || !newServer.ip) return;
 
-    const newServerWithId = { ...newServer, id: servers.length + 1 };
-    setServers([...servers, newServerWithId]);
-    setNewServer({ name: "", ip: "" });
-    toggleModal();
+    setNewServer();
   };
 
   // Удаление сервера
   const deleteServer = (id: number) => {
-    setServers(servers.filter((server) => server.id !== id));
+    setServers(servers.filter((server) => server.idserver !== id));
   };
 
   return (
@@ -48,26 +71,26 @@ export default function ServerSettings() {
       <table className="server-table">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>IP Address</th>
+            <th>Hostname</th>
             <th></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {servers.map((server) => (
-            <tr key={server.id}>
-              <td>{server.id}</td>
-              <td>{server.name}</td>
-              <td>{server.ip}</td>
+            <tr key={server.idserver}>
+              <td>{server.serverName}</td>
+              <td>{server.address}</td>
+              <td>{server.hostname}</td>
               <td>
-                <button className="delete-btn" onClick={() => deleteServer(server.id)}>
+                <button className="delete-btn" onClick={() => deleteServer(server.idserver)}>
                   Delete
                 </button>
               </td>
               <td>
-                <button className="delete-btn" onClick={() => deleteServer(server.id)}>
+                <button className="delete-btn" onClick={() => deleteServer(server.idserver)}>
                   Edit
                 </button>
               </td>
@@ -105,6 +128,17 @@ export default function ServerSettings() {
                   placeholder="Enter server IP"
                   value={newServer.ip}
                   onChange={handleInputChange}
+                />
+              </label>
+                            <label>
+                Token Server:
+                <input
+                  type="text"
+                  name="Token"
+                  placeholder="Token Server"
+                  color="white"
+                  value={"sad"}
+                  disabled
                 />
               </label>
               <div className="modal-actions">

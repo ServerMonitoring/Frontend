@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./GeneralTabs.scss";
+import { RootState } from "../../../../state/RootReduceer";
+import  { getStaticMetrics } from "../../../../API/metric";
+import { useSelector } from "react-redux";
 
 interface Tab {
   id: string;
@@ -11,8 +14,36 @@ interface Tab {
 export default function ServerDetails() {
   const [activeTab, setActiveTab] = useState("general");
   const [isContentVisible, setIsContentVisible] = useState(true);
+  const [serverData, setServerData] = useState<any>(null); // Данные сервера
+  const jwt = useSelector((state: RootState) => state.auth.user.token);
 
-  // Статические данные для характеристик сервера
+  // Функция для извлечения ID из URL
+  function extractLastNumberFromURL(url: string): number | null {
+    const matches = url.match(/\d+/g);
+    return matches && matches.length > 0 ? parseInt(matches[matches.length - 1], 10) : null;
+  }
+
+  // Загрузка данных сервера
+  useEffect(() => {
+    const id = extractLastNumberFromURL(window.location.href);
+    if (id) {
+      async function fetchServerInfo() {
+        try {
+          await getStaticMetrics(jwt, id)
+          .then((response)=>{
+            console.log(response.data)
+            setServerData(response.data[0]); // Сохраняем данные сервера
+          })
+          console.log(serverData)
+        } catch (error) {
+          console.error("Ошибка при загрузке данных сервера:", error);
+        }
+      }
+      fetchServerInfo();
+    }
+  }, [jwt]);
+
+  // Генерация содержимого для вкладок на основе данных сервера
   const tabs: Tab[] = [
     {
       id: "general",
@@ -20,10 +51,16 @@ export default function ServerDetails() {
       icon: "📋",
       content: (
         <div className="tab-content">
-          <p><strong>Имя сервера:</strong> Main Server</p>
-          <p><strong>IP-адрес:</strong> 192.168.1.10</p>
-          <p><strong>Операционная система:</strong> Ubuntu 22.04 LTS</p>
-          <p><strong>Время работы:</strong> 12 дней 5 часов</p>
+          {serverData ? (
+            <>
+              <p><strong>Имя сервера:</strong> {serverData.serverName || "Не указано"}</p>
+              <p><strong>IP-адрес:</strong> {serverData.address || "Не указано"}</p>
+              <p><strong>Операционная система:</strong> {serverData.osInfo || "Не указано"}</p>
+              <p><strong>Дополнительная информация:</strong> {serverData.addInfo || "Не указано"}</p>
+            </>
+          ) : (
+            <p>Загрузка данных...</p>
+          )}
         </div>
       ),
     },
@@ -33,37 +70,20 @@ export default function ServerDetails() {
       icon: "💻",
       content: (
         <div className="tab-content">
-          <p><strong>Модель процессора:</strong> Intel Core i7-12700K</p>
-          <p><strong>Количество ядер:</strong> 12</p>
-          <p><strong>Частота:</strong> 3.6 GHz</p>
-          <p><strong>Температура:</strong> 55°C</p>
+          {serverData ? (
+            <>
+              <p><strong>Модель процессора:</strong> {serverData.cpuModel || "Не указано"}</p>
+              <p><strong>Количество ядер (физических):</strong> {serverData.cpuCountCoresPhysical || "Не указано"}</p>
+              <p><strong>Количество ядер (логических):</strong> {serverData.cpuCountCores || "Не указано"}</p>
+              <p><strong>Максимальная частота:</strong> {serverData.maxFreq ? `${serverData.maxFreq} MHz` : "Не указано"}</p>
+              <p><strong>Минимальная частота:</strong> {serverData.minFreq ? `${serverData.minFreq} MHz` : "Не указано"}</p>
+            </>
+          ) : (
+            <p>Загрузка данных...</p>
+          )}
         </div>
       ),
-    },
-    {
-      id: "memory",
-      label: "Память",
-      icon: "💾",
-      content: (
-        <div className="tab-content">
-          <p><strong>Общий объем:</strong> 32 GB</p>
-          <p><strong>Используется:</strong> 16 GB (50%)</p>
-          <p><strong>Свободно:</strong> 16 GB (50%)</p>
-        </div>
-      ),
-    },
-    {
-      id: "network",
-      label: "Сеть",
-      icon: "🌐",
-      content: (
-        <div className="tab-content">
-          <p><strong>Загрузка:</strong> 1.2 MB/s</p>
-          <p><strong>Выгрузка:</strong> 800 KB/s</p>
-          <p><strong>Активные соединения:</strong> 12</p>
-        </div>
-      ),
-    },
+    }
   ];
 
   // Плавное обновление контента

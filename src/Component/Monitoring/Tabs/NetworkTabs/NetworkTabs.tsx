@@ -1,4 +1,4 @@
-export default function NetworkTAbs(){
+export default function NetworkTAbs({ Timeout }){
     return(
         <>
         

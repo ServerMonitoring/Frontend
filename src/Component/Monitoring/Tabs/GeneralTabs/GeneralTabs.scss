@@ -29,6 +29,7 @@
       align-items: center;
       gap: 0.5rem;
       transform-style: preserve-3d; /* 3D-эффект */
+      margin-right: 1em;
 
       &:hover {
         transform: rotateX(10deg) scale(1.1); /* 3D-эффект при наведении */

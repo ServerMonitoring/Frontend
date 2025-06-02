@@ -1,4 +1,4 @@
-export default function CPUTAbs(){
+export default function DiskTAbs({ Timeout }){
     return(
         <>
         

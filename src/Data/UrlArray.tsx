@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Loader from "../Component/Loader/Lodader";
 import NotFoundPage from "../Pages/404error/NotFound";
 import ErrorServer from "../Pages/500error/ErrorServer";
@@ -7,6 +8,8 @@ import ServersPage from "../Pages/MenuServer/MenuServer";
 import MonitoringPage from "../Pages/Monitoring/MonitoringPage";
 import ProfileUser from "../Pages/ProfileUser/ProfileUser";
 import SettingsPage from "../Pages/Setting/Setting";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../state/RootReduceer";
 
 interface UrlPage{
     name: string,
@@ -110,7 +113,25 @@ export const UserPage: UrlPage[] =[
 
 
 // Функция для получения элемента по имени
-export function getPageElementByName(name: string, Page:UrlPage[]): JSX.Element | null {
+export function getPageElementByName(name: string): JSX.Element | null {
+    const [Page,SetPage]=useState(No_AuthPage);
+    const dispatch = useDispatch();
+    const role  = useSelector((state:RootState) => state.auth.user.role);
+    const auth = useSelector((state:RootState) => state.auth.isAuthenticated);
+    useEffect(()=>{
+        function selectPage(){
+            if(auth){
+                if(role == "admin"){
+                    SetPage(AllPage);
+                }else{
+                    SetPage(UserPage);
+                }
+            } else{
+                SetPage(No_AuthPage);
+            }
+        }
+        selectPage();
+    },[])
     const page = Page.find(page => page.name === name);
     return page ? page.element : null;
 }

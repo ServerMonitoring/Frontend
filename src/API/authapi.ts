@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux";
 import { api } from "./config"
 import axios, { AxiosInstance, AxiosError } from 'axios';
+import { RootState } from "../state/RootReduceer";
 
 // Определение интерфейсов
 interface SignUpRequest {
@@ -10,7 +12,7 @@ interface SignUpRequest {
   position: string;
   login: string;
   password: string;
-  role: 'USER' | 'ADMIN';
+  role: string;
   addInfo: string;
 }
 
@@ -29,16 +31,20 @@ interface SignInResponse {
 
 // Создание экземпляра Axios
 const apiClient: AxiosInstance = axios.create({
-  baseURL: 'https://api.example.com ',
+  baseURL: api,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 // Функция регистрации
-async function signUp(userData: SignUpRequest): Promise<SignUpResponse> {
+async function signUp(userData: SignUpRequest,jwt:string): Promise<SignUpResponse> {
   try {
-    const response = await apiClient.post<SignUpResponse>('/auth/sign_up', userData);
+    const response = await apiClient.post<SignUpResponse>('/auth/sign_up', userData,{        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+    }
+    );
     return response.data;
   } catch (error) {
     console.error('Ошибка при регистрации:', error);
@@ -50,6 +56,8 @@ async function signUp(userData: SignUpRequest): Promise<SignUpResponse> {
 async function signIn(credentials: SignInRequest): Promise<SignInResponse> {
   try {
     const response = await apiClient.post<SignInResponse>('/auth/sign_in', credentials);
+    console.log(response.data)
+    
     return response.data;
   } catch (error) {
     console.error('Ошибка при входе:', error);

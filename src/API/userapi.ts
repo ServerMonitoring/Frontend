@@ -1,4 +1,7 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../state/RootReduceer';
+import { api } from './config';
 
 // Определение интерфейсов
 interface UserProfileResponse {
@@ -33,22 +36,27 @@ interface UpdateUserProfileResponse {
   position: string;
   login: string;
   preferredLanguage: 'RUSSIAN' | 'ENGLISH';
+  role: string;
   addInfo: string;
   jwt: string | null;
 }
-
 // Создание экземпляра Axios
 const apiClient: AxiosInstance = axios.create({
-  baseURL: 'https://api.example.com ',
+  baseURL: api,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 // Получение профиля пользователя
-async function getUserProfile(): Promise<UserProfileResponse> {
+async function getUserProfile(jwt: string): Promise<UserProfileResponse> {
   try {
-    const response = await apiClient.get<UserProfileResponse>('/api/user');
+    const response = await apiClient.get<UserProfileResponse>('/api/user',{
+        headers: {
+            Authorization: `Bearer ${jwt}`,
+        }
+    });
+    console.log(response)
     return response.data;
   } catch (error) {
     console.error('Ошибка при получении профиля:', error);

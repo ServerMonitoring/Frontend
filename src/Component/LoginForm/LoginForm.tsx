@@ -5,6 +5,8 @@ import { login } from "../../state/slice/authslice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../API/authapi";
+import { getUserProfile } from "../../API/userapi";
+import { getPageElementByName } from "../../Data/UrlArray";
 
 export default function LoginForm() {
   const [username, setUsername] = useState<string>("");
@@ -23,18 +25,18 @@ export default function LoginForm() {
 
       // Отправляем запрос на вход
       const credentials = { login: username, password };
-      const response = await signIn(credentials);
-
-      // Сохраняем токен в Redux
-      dispatch(login({
-        token: response.token,
-        id: "",
-        username: "",
-        role: ""
+      await signIn(credentials)
+      .then(async (response)=>{
+      await getUserProfile(response)
+      .then((res)=>{
+        dispatch(login({
+        token: response,
+        username: res.name,
+        role: res.role
       }));
-
-      // Перенаправляем пользователя на страницу сервера
+      })
       navigate("/server");
+      })
     } catch (error) {
       console.error("Ошибка входа:", error);
       setError("Неверный логин или пароль");
@@ -47,7 +49,7 @@ export default function LoginForm() {
         <div className="login-card">
           <h2>{t('Login.H2')}</h2>
           <p>{t('Login.p')}</p>
-          <form id="login-form" onSubmit={onSubmit}>
+          <form id="login-form" onSubmit={(e) =>{onSubmit(e)}}>
             <div className="input-group">
               <label htmlFor="username">{t('Login.labelName')}</label>
               <input
