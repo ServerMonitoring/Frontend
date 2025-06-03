@@ -7,9 +7,10 @@ interface MetricChartProps {
   data: number[];
   description?: string; // Описание метрики (необязательное)
   limit?: number; // Предельное значение (необязательное)
+  time: string[]
 }
 
-const MetricChart: React.FC<MetricChartProps> = ({ title, data, description, limit }) => {
+const MetricChart: React.FC<MetricChartProps> = ({ title, data, description, limit, time }) => {
   // Настройки графика
   const chartOptions = {
     chart: {
@@ -18,7 +19,7 @@ const MetricChart: React.FC<MetricChartProps> = ({ title, data, description, lim
       },
     },
     xaxis: {
-      categories: Array.from({ length: data.length }, (_, i) => `T-${i + 1}`), 
+      categories: time, 
         labels: {
           style:{
          colors: "var(--text-color)",}, // Цвет текста в легенде

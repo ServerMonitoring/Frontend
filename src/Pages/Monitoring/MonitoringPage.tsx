@@ -7,7 +7,7 @@ import { RootState } from "../../state/RootReduceer";
 import { useSelector } from "react-redux";
 
 interface Server {
-  id: number;
+  idserver: number;
   name: string;
   address: string;
   status: "online" | "offline";
@@ -38,17 +38,6 @@ export default function MonitoringPage() {
       .catch((error) => console.error("Error loading server data:", error));
         }
         getAllServer()
-    fetch("/serverData.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setServers(data);
-        const id = extractLastNumberFromURL(window.location.href);
-        const found = data.find((server:Server) => server.id === id);
-        if (found) {
-          setSelectedServer(found);
-        }
-      })
-      .catch((error) => console.error("Error loading server data:", error));
   }, []);
 
   function extractLastNumberFromURL(url: string): number | null {

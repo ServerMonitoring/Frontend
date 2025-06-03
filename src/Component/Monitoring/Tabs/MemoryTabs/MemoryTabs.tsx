@@ -1,46 +1,50 @@
 import { useSelector } from "react-redux";
 import MetricChart from "../../MetricChart/MetricHart";
-import { extractMetricData } from "../generalfunction";
+import { addTimeToCurrent, calculateTimeIntervals, extractMetricData } from "../generalfunction";
 import { RootState } from "../../../../state/RootReduceer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getMemoryMetrics } from "../../../../API/metric";
 
-     const apiData = [
-    {
-      id: 1,
-      memoryTotal: 16270,
-      memoryUsed: 11546,
-      memoryFree: 4724,
-      memoryCached: 0,
-      memoryUsedPercent: 70.95,
-    },
-    {
-      id: 2,
-      memoryTotal: 16270,
-      memoryUsed: 11800,
-      memoryFree: 4470,
-      memoryCached: 0,
-      memoryUsedPercent: 72.5,
-    },
-    {
-      id: 3,
-      memoryTotal: 16270,
-      memoryUsed: 12000,
-      memoryFree: 4270,
-      memoryCached: 0,
-      memoryUsedPercent: 73.75,
-    },
-  ];
-  
+ 
 export default function MemoryTAbs({ Timeout }){
         const jwt = useSelector((state: RootState) => state.auth.user.token);
-        useEffect(()=>{
-            
-        },[])
-        const memoryUsed = extractMetricData(apiData, "memoryUsed");
-        const memoryTotal = extractMetricData(apiData, "memoryTotal");
-        const memoryCached = extractMetricData(apiData, "memoryCached");
-        const memoryFree = extractMetricData(apiData, "memoryFree");
-        const memoryUsedPercent = extractMetricData(apiData, "memoryUsedPercent");
+        const [data, setData] = useState<any[]>([]);
+        const currentTime = new Date();
+        const endTime = addTimeToCurrent(Timeout);
+        const id = extractLastNumberFromURL(window.location.href);
+  function extractLastNumberFromURL(url: string): number | null {
+    const matches = url.match(/\d+/g);
+    return matches && matches.length > 0 ? parseInt(matches[matches.length - 1], 10) : null;
+  }
+  // Функция для загрузки данных
+  const fetchData = async () => {
+    try {
+        await getMemoryMetrics(id,currentTime.toISOString,endTime,jwt)
+        .then((response)=>{
+            console.log(response)
+            setData(response)
+        })
+    } catch (error) {
+      console.error("Ошибка при загрузке данных:", error);
+    }
+  };
+      useEffect(() => {
+            fetchData(); // Загружаем данные при монтировании
+
+            const intervalId = setInterval(() => {
+            fetchData(); // Загружаем данные каждую минуту
+
+            }, 60000); // 60000 мс = 1 минута
+
+    // Очистка интервала при размонтировании
+    return () => clearInterval(intervalId);
+  }, []);
+        const memoryUsed = extractMetricData(data, "memoryUsed");
+        const memoryTotal = extractMetricData(data, "memoryTotal");
+        const memoryCached = extractMetricData(data, "memoryCached");
+        const memoryFree = extractMetricData(data, "memoryFree");
+        const memoryUsedPercent = extractMetricData(data, "memoryUsedPercent");
+        const time = calculateTimeIntervals(currentTime.toISOString(),endTime,data.length)
     return(
         <>
         <MetricChart
@@ -48,12 +52,14 @@ export default function MemoryTAbs({ Timeout }){
             data={memoryUsed}
             description="Это показатель загрузки процессора в процентах. Высокие значения могут указывать на перегрузку системы."
             limit={memoryTotal[0]}
+            time={time}
         />
         <MetricChart
             title="Memory Cached"
             data={memoryCached}
             description="Это показатель загрузки процессора в процентах. Высокие значения могут указывать на перегрузку системы."
             limit={memoryTotal[0]}
+            time={time}
             
         />
         <MetricChart
@@ -61,6 +67,7 @@ export default function MemoryTAbs({ Timeout }){
             data={memoryFree}
             description="Это показатель загрузки процессора в процентах. Высокие значения могут указывать на перегрузку системы."
             limit={memoryTotal[0]}
+            time={time}
             
         />
          <MetricChart
@@ -68,6 +75,7 @@ export default function MemoryTAbs({ Timeout }){
             data={memoryUsedPercent}
             description="Это показатель загрузки процессора в процентах. Высокие значения могут указывать на перегрузку системы."
             limit={memoryTotal[0]}
+            time={time}
             
         />
         </>

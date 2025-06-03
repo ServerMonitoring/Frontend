@@ -181,8 +181,18 @@ interface GpuMetricResponse {
   }
 
   // Получение метрик памяти
-  async function getMemoryMetrics(request: MetricRequest): Promise<MemoryMetricResponse[]> {
-    const response = await apiClient.post<MemoryMetricResponse[]>('/api/metric/memory', request);
+  export async function getMemoryMetrics(idserver:number,starttime:string,endtime:string,jwt:string): Promise<any[]> {
+    const response = await apiClient.post<MemoryMetricResponse[]>('/api/metric/memory',{
+          "metricTimeCriteria":{
+        "startTime":starttime,
+        "endTime":endtime,
+        "serverID":idserver
+    }
+    },{        
+      headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+    });
     return response.data;
   }
 

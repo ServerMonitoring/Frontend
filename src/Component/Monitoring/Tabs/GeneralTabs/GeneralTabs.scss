@@ -8,7 +8,7 @@
   border-radius: 8px;
   box-shadow: var(--shadow);
   text-align: center;
-
+overflow-y: auto;
   /* Панель вкладок */
   .tabs {
     display: flex;

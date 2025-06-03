@@ -81,6 +81,7 @@ export default  function UserSettings() {
     await deleteOneUser(id,jwt)
     .then(()=>{
       console.log("Пользователь удален")
+      window.location.reload();
     })
     console.log("Удалили")
   };

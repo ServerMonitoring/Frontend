@@ -1,7 +1,8 @@
 
 .content-tabs {
   position: relative;
-
+overflow-y: auto;
+overflow-x: hidden;
   /* Контейнер для табов и триггера */
   .tabs-container {
     position: relative;
@@ -95,5 +96,7 @@
   /* Содержимое вкладки */
   .tab-content {
     padding: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }

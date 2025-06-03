@@ -16,11 +16,9 @@ interface Metrics {
   disk: number[];
 }
 
-interface ContentTabsProps {
-  metrics: Metrics;
-}
 
-const ContentTabs: React.FC<ContentTabsProps> = () => {
+
+const ContentTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState("cpu");
   const [Timeout, setTimeRange] = useState("1h"); // По умолчанию "1 час"
   const [isTimeSelectorVisible, setIsTimeSelectorVisible] = useState(false); // Видимость переключателя времени

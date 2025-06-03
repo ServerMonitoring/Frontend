@@ -43,13 +43,10 @@ async function getListUsers(jwt: string): Promise<User[]> {
 // Удаление пользователя
 async function deleteOneUser(userId: number,jwt:string): Promise<void> {
   try {
-    await apiClient.delete(`/api/admin`,{
+    await apiClient.delete(`/api/admin?userId=${userId}`,{
         headers: {
             Authorization: `Bearer ${jwt}`,
         },
-        body:{
-            userId
-        }
     });
     console.log(`Пользователь с ID ${userId} успешно удален.`);
   } catch (error) {

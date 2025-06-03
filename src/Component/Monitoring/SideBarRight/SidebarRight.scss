@@ -2,8 +2,9 @@
     width: max-content;
     background: var(--card-background);
     padding: 1rem;
-    height: calc(100vh - 60px);
+    height: 100%;
     overflow-y: auto;
+    
     box-shadow: var(--shadow);
     h2{
         margin-top: 0;
