@@ -65,9 +65,9 @@ export function addTimeToCurrent(timeString: string): string {
     // Извлекаем число и тип интервала
     const value = parseInt(match[1], 10);
     const unit = match[2];
-
-    // Получаем текущее время
-    const currentTime = new Date();
+        const now = new Date();
+        const currentTime = new Date(now.getTime() - 1 * 60 * 1000);
+    // Получаем текущее врем
 
     // Прибавляем время в зависимости от типа интервала
     switch (unit) {

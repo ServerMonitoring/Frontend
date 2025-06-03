@@ -80,8 +80,8 @@ const ContentTabs: React.FC = () => {
               1 Week
             </button>
             <button
-              className={Timeout === "1mo" ? "active" : ""}
-              onClick={() => setTimeRange("1mo")}
+              className={Timeout === "1M" ? "active" : ""}
+              onClick={() => setTimeRange("1M")}
             >
               1 Month
             </button>

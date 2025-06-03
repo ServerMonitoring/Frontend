@@ -9,8 +9,11 @@ import { getMemoryMetrics } from "../../../../API/metric";
 export default function MemoryTAbs({ Timeout }){
         const jwt = useSelector((state: RootState) => state.auth.user.token);
         const [data, setData] = useState<any[]>([]);
-        const currentTime = new Date();
-        const endTime = addTimeToCurrent(Timeout);
+        const now = new Date();
+        const startTime = new Date(now.getTime() - 1 * 60 * 1000);
+        console.log("Начальное время"+ startTime)
+        const endTime = addTimeToCurrent(Timeout)
+        console.log("конечно время"+ endTime)
         const id = extractLastNumberFromURL(window.location.href);
   function extractLastNumberFromURL(url: string): number | null {
     const matches = url.match(/\d+/g);
@@ -19,7 +22,7 @@ export default function MemoryTAbs({ Timeout }){
   // Функция для загрузки данных
   const fetchData = async () => {
     try {
-        await getMemoryMetrics(id,currentTime.toISOString,endTime,jwt)
+        await getMemoryMetrics(id,startTime,endTime,jwt)
         .then((response)=>{
             console.log(response)
             setData(response)
@@ -44,7 +47,7 @@ export default function MemoryTAbs({ Timeout }){
         const memoryCached = extractMetricData(data, "memoryCached");
         const memoryFree = extractMetricData(data, "memoryFree");
         const memoryUsedPercent = extractMetricData(data, "memoryUsedPercent");
-        const time = calculateTimeIntervals(currentTime.toISOString(),endTime,data.length)
+        const time = calculateTimeIntervals(startTime.toISOString(),endTime,data.length || 1)
     return(
         <>
         <MetricChart
