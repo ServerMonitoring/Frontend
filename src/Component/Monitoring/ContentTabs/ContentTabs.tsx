@@ -20,7 +20,7 @@ interface Metrics {
 
 const ContentTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState("cpu");
-  const [Timeout, setTimeRange] = useState("1h"); // По умолчанию "1 час"
+  const [Timeout, setTimeRange] = useState("5m"); // По умолчанию "1 час"
   const [isTimeSelectorVisible, setIsTimeSelectorVisible] = useState(false); // Видимость переключателя времени
 
   return (
@@ -120,12 +120,7 @@ const ContentTabs: React.FC = () => {
           >
             GPU
           </button>
-          <button
-            className={`tab-button ${activeTab === "metric" ? "active" : ""}`}
-            onClick={() => setActiveTab("metric")}
-          >
-            Metric
-          </button>
+
           <button
             className={`tab-button ${activeTab === "network" ? "active" : ""}`}
             onClick={() => setActiveTab("network")}
@@ -148,7 +143,6 @@ const ContentTabs: React.FC = () => {
         {activeTab === "memory" && <MemoryTAbs Timeout={Timeout} />}
         {activeTab === "disk" && <DiskTAbs Timeout={Timeout} />}
         {activeTab === "gpu" && <GPUTAbs Timeout={Timeout} />}
-        {activeTab === "metric" && <MetricsAbs Timeout={Timeout} />}
         {activeTab === "network" && <NetworkTAbs Timeout={Timeout} />}
         {activeTab === "swap" && <SwapTAbs Timeout={Timeout} />}
       </div>

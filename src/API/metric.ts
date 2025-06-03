@@ -197,29 +197,48 @@ interface GpuMetricResponse {
   }
 
   // Получение метрик swap
-  async function  getSwapMetrics(request: MetricRequest): Promise<SwapMetricResponse[]> {
-    const response = await apiClient.post<SwapMetricResponse[]>('/api/metric/swap', request);
+  export async function  getSwapMetrics(request: MetricRequest, jwt:string): Promise<SwapMetricResponse[]> {
+    const response = await apiClient.post<SwapMetricResponse[]>('/api/metric/swap', request,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        });
     return response.data;
   }
 
   // Получение метрик CPU
-  async function getCpuMetrics(request: MetricRequest): Promise<CpuMetricResponse[]> {
-    const response = await apiClient.post<CpuMetricResponse[]>('/api/metric/cpu', request);
+  export async function getCpuMetrics(request: MetricRequest,jwt:string): Promise<CpuMetricResponse[]> {
+    const response = await apiClient.post<CpuMetricResponse[]>('/api/metric/cpu', request,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        }
+    );
     return response.data;
   }
 
   // Получение сетевых соединений
-  async function getNetworkConnections(request: MetricRequest): Promise<NetworkConnectionMetricResponse[]> {
-    const response = await apiClient.post<NetworkConnectionMetricResponse[]>(
-      '/api/metric/network_connection',
-      request
+  export async function getNetworkConnections(request: MetricRequest,jwt:string): Promise<NetworkConnectionMetricResponse[]> {
+    const response = await apiClient.post<NetworkConnectionMetricResponse[]>('/api/metric/network_connection', request,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        }
     );
     return response.data;
   }
 
   // Получение данных сетевых интерфейсов
-  async function  getNetInterfaceMetrics(request: MetricRequest): Promise<NetInterfaceMetricResponse[]> {
-    const response = await apiClient.post<NetInterfaceMetricResponse[]>('/api/metric/net_interface', request);
+  export async function  getNetInterfaceMetrics(request: MetricRequest,jwt:string): Promise<NetInterfaceMetricResponse[]> {
+    const response = await apiClient.post<NetInterfaceMetricResponse[]>('/api/metric/net_interface', request,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        });
     return response.data;
   }
 
