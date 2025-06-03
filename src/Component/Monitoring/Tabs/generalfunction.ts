@@ -21,15 +21,15 @@ export function calculateTimeIntervals(startTime: string, endTime: string, numIn
 
     // Проверяем корректность входных данных
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-        throw new Error("Неверный формат времени. Используйте ISO 8601.");
+        console.warn(start.getTime(),"\n",end.getTime());
+        throw new Error("Неверный формат времени. Используйте ISO 8601." );
     }
-    if (start >= end) {
-        throw new Error("Начальное время должно быть меньше конечного времени.");
+    if (start <= end) {
+        throw new Error("Начальное время должно быть больше конечного времени.");
     }
     if (numIntervals <= 0) {
         throw new Error("Количество интервалов должно быть больше 0.");
     }
-
     // Вычисляем общую длительность интервала в миллисекундах
     const totalDuration = end.getTime() - start.getTime();
 
@@ -68,26 +68,27 @@ export function addTimeToCurrent(timeString: string): string {
         const now = new Date();
         const currentTime = new Date(now.getTime() - 1 * 60 * 1000);
     // Получаем текущее врем
-
+    console.log("UNIT",unit)
+    console.log("VALUE",value)
     // Прибавляем время в зависимости от типа интервала
     switch (unit) {
         case "m": // Минуты
-            currentTime.setMinutes(currentTime.getMinutes() + value);
+            currentTime.setMinutes(currentTime.getMinutes() - value);
             break;
         case "h": // Часы
-            currentTime.setHours(currentTime.getHours() + value);
+            currentTime.setHours(currentTime.getHours() - value);
             break;
         case "d": // Дни
-            currentTime.setDate(currentTime.getDate() + value);
+            currentTime.setDate(currentTime.getDate() - value);
             break;
         case "w": // Недели
-            currentTime.setDate(currentTime.getDate() + value * 7);
+            currentTime.setDate(currentTime.getDate() - value * 7);
             break;
         case "M": // Месяцы
-            currentTime.setMonth(currentTime.getMonth() + value);
+            currentTime.setMonth(currentTime.getMonth() - value);
             break;
         case "y": // Годы
-            currentTime.setFullYear(currentTime.getFullYear() + value);
+            currentTime.setFullYear(currentTime.getFullYear() - value);
             break;
         default:
             throw new Error("Неизвестный тип интервала.");
