@@ -185,9 +185,9 @@ export default function CPUTAbs({ Timeout }){
 
             <HeatmapChart
                 title="CPU Core Load Heatmap"
-                data={cores}              // двумерный массив: [ядро][время]
-                xLabels={time}                 // время по X
-                yLabels={coresName} // ядра по Y
+                data={cores}
+                xLabels={time}
+                yLabels={coresName}
                 description="Тепловая карта загрузки ядер процессора за выбранный интервал времени."
             />
 
