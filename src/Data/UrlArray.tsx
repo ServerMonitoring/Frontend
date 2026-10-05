@@ -71,6 +71,11 @@ export const No_AuthPage: UrlPage[]= [
         element: <LoginPage />,
         url: "/auth"
     },
+    {
+        name: "Login_Root",
+        element: <LoginPage />,
+        url: "/"
+    },
     {   name: "NorFound_Page",
         element: <NotFoundPage />,
         url: "*"
